@@ -4,26 +4,30 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { UsersModule } from './users/users.module';
 import { UserTagsModule } from './user_tags/user_tags.module';
 import { TagsModule } from './tags/tags.module';
+import { User } from './users/user.model';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   controllers: [],
   providers: [],
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.env',
+      envFilePath: `.${process.env.NODE_ENV}.env`,
     }),
     SequelizeModule.forRoot({
       dialect: 'postgres',
-      host: process.env.POSTGRES_HOST,
-      port: Number(process.env.POSTGRESS_PORT),
+      host: process.env.POSTGERS_HOST,
+      port: Number(process.env.POSTGRES_PORT),
       username: process.env.POSTGRES_USER,
-      password: process.env.POSTGRESS_PASSWORD,
+      password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
+      models: [User],
       autoLoadModels: true,
     }),
     UsersModule,
     UserTagsModule,
     TagsModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
