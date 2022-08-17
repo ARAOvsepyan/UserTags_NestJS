@@ -5,7 +5,7 @@ export class SearchTagDto {
     example: 'PageNumber: 1',
     description: 'Номер страницы',
   })
-  readonly page: string;
+  readonly page: number;
 
   @ApiProperty({
     example: 'PageSize: 10',
