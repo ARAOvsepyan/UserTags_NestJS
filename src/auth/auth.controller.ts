@@ -1,4 +1,11 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Res,
+} from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { JwtDto } from './dto/jwt.dto';
@@ -12,6 +19,7 @@ export class AuthController {
 
   @ApiOperation({ summary: 'SingIn' })
   @ApiResponse({ status: 201, type: JwtDto, description: 'JWT' })
+  @HttpCode(HttpStatus.CREATED)
   @Post('/singin')
   singin(@Body() singInDto: SingInDto): Promise<JwtDto> {
     return this.authService.singInUser(singInDto);
