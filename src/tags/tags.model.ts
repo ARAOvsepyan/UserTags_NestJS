@@ -26,7 +26,7 @@ export class Tag extends Model<Tag, TagCretionAttributs> {
     primaryKey: true,
     autoIncrement: true,
   })
-  id: string;
+  id: number;
 
   @ApiProperty({
     example: 'ExampleTagName',
