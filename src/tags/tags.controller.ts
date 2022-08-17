@@ -9,6 +9,8 @@ import {
   Delete,
   Param,
   ParseIntPipe,
+  HttpCode,
+  HttpStatus,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -19,15 +21,16 @@ import {
 } from '@nestjs/swagger';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { SearchTagDto } from './dto/search-tag.dto';
+import { UpdateTagDto } from './dto/update-tag.dto';
 import { Tag } from './tags.model';
 import { TagsService } from './tags.service';
 
 @ApiTags('Теги')
-@ApiBearerAuth()
 @Controller('tags')
 export class TagsController {
   constructor(private readonly tagsService: TagsService) {}
 
+  @ApiBearerAuth()
   @ApiHeader({
     name: 'Authorization',
     description: 'Berare JWT',
@@ -35,6 +38,7 @@ export class TagsController {
   })
   @ApiOperation({ summary: 'Create Tag' })
   @ApiResponse({ status: 201, type: Tag, description: 'Example Tag' })
+  @HttpCode(HttpStatus.CREATED)
   @Post()
   async createTag(
     @Headers() headers: { authorization: string },
@@ -43,11 +47,6 @@ export class TagsController {
     return this.tagsService.createTag(tag, headers);
   }
 
-  @ApiHeader({
-    name: 'Authorization',
-    description: 'Berare JWT',
-    required: true,
-  })
   @ApiOperation({ summary: 'Get all Tags' })
   @ApiResponse({
     status: 200,
@@ -56,15 +55,10 @@ export class TagsController {
     description: 'All Tags',
   })
   @Get()
-  async getAllTags(@Query('search') search: SearchTagDto) {
+  async getAllTags(@Query() search: SearchTagDto) {
     return this.tagsService.getAllTags(search);
   }
 
-  @ApiHeader({
-    name: 'Authorization',
-    description: 'Berare JWT',
-    required: true,
-  })
   @ApiOperation({ summary: 'Get Tag by id' })
   @ApiResponse({ status: 200, type: Tag, description: 'Tag' })
   @Get(':id')
@@ -72,30 +66,36 @@ export class TagsController {
     return this.tagsService.getTagById(id);
   }
 
+  @ApiBearerAuth()
   @ApiHeader({
     name: 'Authorization',
     description: 'Berare JWT',
     required: true,
   })
   @ApiOperation({ summary: 'Delete Tag by id' })
-  @ApiResponse({ status: 204, description: 'Deleted Tag' })
+  @ApiResponse({ status: 200, description: 'Deleted Tag' })
   @Delete(':id')
-  async deleteTagById(@Query('id', ParseIntPipe) id: number) {
-    return this.tagsService.deleteTagById(id);
+  async deleteTagById(
+    @Param('id', ParseIntPipe) id: number,
+    @Headers() headers,
+  ) {
+    return this.tagsService.deleteTagById(id, headers);
   }
 
+  @ApiBearerAuth()
   @ApiHeader({
     name: 'Authorization',
     description: 'Berare JWT',
     required: true,
   })
   @ApiOperation({ summary: 'Update Tag by id' })
-  @ApiResponse({ status: 204, description: 'Updated Tag' })
+  @ApiResponse({ status: 200, description: 'Updated Tag' })
   @Put(':id')
   async updateTagById(
-    @Query('id', ParseIntPipe) id: number,
-    @Body() tag: CreateTagDto,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() tag: UpdateTagDto,
+    @Headers() headers,
   ) {
-    return this.tagsService.updateTagById(id, tag);
+    return this.tagsService.updateTagById(id, headers, tag);
   }
 }
