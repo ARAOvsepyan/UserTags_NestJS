@@ -7,6 +7,7 @@ import { TagsModule } from './tags/tags.module';
 import { User } from './users/user.model';
 import { AuthModule } from './auth/auth.module';
 import { Tag } from './tags/tags.model';
+import { UserTags } from './user_tags/user_tags.model';
 
 @Module({
   controllers: [],
@@ -22,7 +23,7 @@ import { Tag } from './tags/tags.model';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [User, Tag],
+      models: [User, Tag, UserTags],
       autoLoadModels: true,
     }),
     UsersModule,
