@@ -25,7 +25,7 @@ export class TagsService {
         attributes: ['name', 'sortOrder'],
         include: [
           {
-            model: User,
+            model: this.userRepository,
             attributes: ['uid', 'nickname'],
           },
         ],
@@ -44,7 +44,7 @@ export class TagsService {
         attributes: ['name', 'sortOrder'],
         include: [
           {
-            model: User,
+            model: this.userRepository,
             attributes: ['nickname', 'uid'],
           },
         ],
@@ -64,7 +64,7 @@ export class TagsService {
         attributes: ['name', 'sortOrder'],
         include: [
           {
-            model: User,
+            model: this.userRepository,
             attributes: ['nickname', 'uid'],
           },
         ],
@@ -83,7 +83,7 @@ export class TagsService {
       attributes: ['name', 'sortOrder'],
       include: [
         {
-          model: User,
+          model: this.userRepository,
           attributes: ['nickname', 'uid'],
         },
       ],
@@ -99,7 +99,7 @@ export class TagsService {
       attributes: { exclude: ['createdAt', 'updatedAt', 'creatorUId', 'id'] },
       include: [
         {
-          model: User,
+          model: this.userRepository,
           attributes: ['email', 'nickname'],
         },
       ],
@@ -139,15 +139,15 @@ export class TagsService {
     const token = header.authorization.split(' ')[1];
     const decoded = this.jwtService.verify(token);
 
-    const conditate_tag = await Tag.findOne({ where: { id } });
+    const conditate_tag = await this.tagRepository.findOne({ where: { id } });
     if (conditate_tag.creatorUId === decoded.uid) {
       await Tag.update({ ...tag }, { where: { id } });
 
-      const updated_tag = await Tag.findOne({
+      const updated_tag = await this.tagRepository.findOne({
         attributes: ['name', 'sortOrder'],
         include: [
           {
-            model: User,
+            model: this.userRepository,
             attributes: ['uid', 'nickname'],
           },
         ],
