@@ -6,8 +6,10 @@ import {
   DataType,
   BelongsTo,
   ForeignKey,
+  BelongsToMany,
 } from 'sequelize-typescript';
 import { User } from 'src/users/user.model';
+import { UserTags } from 'src/user_tags/user_tags.model';
 
 interface TagCretionAttributs {
   name: string;
@@ -53,4 +55,7 @@ export class Tag extends Model<Tag, TagCretionAttributs> {
 
   @BelongsTo(() => User)
   creator: User;
+
+  @BelongsToMany(() => User, () => UserTags)
+  users: User[];
 }
