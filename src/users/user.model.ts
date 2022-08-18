@@ -1,6 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Model, Table, DataType, HasMany } from 'sequelize-typescript';
+import {
+  Column,
+  Model,
+  Table,
+  DataType,
+  HasMany,
+  BelongsToMany,
+} from 'sequelize-typescript';
 import { Tag } from 'src/tags/tags.model';
+import { UserTags } from 'src/user_tags/user_tags.model';
 
 interface UserCretionAttributs {
   email: string;
@@ -44,4 +52,7 @@ export class User extends Model<User, UserCretionAttributs> {
 
   @HasMany(() => Tag)
   tags: Tag[];
+
+  @BelongsToMany(() => Tag, () => UserTags)
+  tag: Tag[];
 }
