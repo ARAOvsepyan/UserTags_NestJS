@@ -3,31 +3,55 @@ import {
   ExecutionContext,
   HttpException,
   HttpStatus,
+  Injectable,
 } from '@nestjs/common';
+import { Observable } from 'rxjs';
 import { JwtService } from '@nestjs/jwt';
 
+@Injectable()
 export class JwtAuthGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
 
   canActivate(
     context: ExecutionContext,
-  ): Promise<boolean> | boolean | Promise<boolean> {
+  ): boolean | Promise<boolean> | Observable<boolean> {
+    const req = context.switchToHttp().getRequest();
     try {
-      const request = context.switchToHttp().getRequest();
-      const authHeader = request.headers.authorization;
-      if (!authHeader) {
-        throw new HttpException('Нет авторизации', HttpStatus.UNAUTHORIZED);
-      }
+      const authHeader = req.headers.authorization;
+      const bearer = authHeader.split(' ')[0];
       const token = authHeader.split(' ')[1];
-      const decoded = this.jwtService.verify(token);
-      const userId = decoded.userId;
-      if (!userId) {
-        throw new HttpException('Не корректный токен', HttpStatus.UNAUTHORIZED);
+
+      if (bearer !== 'Bearer' || !token) {
+        throw new HttpException(
+          {
+            status: HttpStatus.UNAUTHORIZED,
+            error: 'Необходима авторизация',
+          },
+          HttpStatus.UNAUTHORIZED,
+        );
       }
-      request.userId = userId;
+
+      const user = this.jwtService.verify(token);
+      const userId = user.userId;
+      if (!userId) {
+        throw new HttpException(
+          {
+            status: HttpStatus.UNAUTHORIZED,
+            error: 'Необходима авторизация',
+          },
+          HttpStatus.UNAUTHORIZED,
+        );
+      }
+      req.userId = userId;
       return true;
-    } catch (error) {
-      throw new HttpException('Нет авторизации', HttpStatus.UNAUTHORIZED);
+    } catch (e) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNAUTHORIZED,
+          error: 'Необходима авторизация',
+        },
+        HttpStatus.UNAUTHORIZED,
+      );
     }
   }
 }
