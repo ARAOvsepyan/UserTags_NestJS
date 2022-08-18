@@ -5,8 +5,10 @@ import {
   HttpStatus,
   Post,
   Res,
+  UsePipes,
 } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ValidationPipe } from 'src/pipes/validation.pipe';
 import { AuthService } from './auth.service';
 import { JwtDto } from './dto/jwt.dto';
 import { LogInDto } from './dto/logIn.dto';
@@ -19,6 +21,7 @@ export class AuthController {
 
   @ApiOperation({ summary: 'SingIn' })
   @ApiResponse({ status: 201, type: JwtDto, description: 'JWT' })
+  @UsePipes(ValidationPipe)
   @HttpCode(HttpStatus.CREATED)
   @Post('/singin')
   singin(@Body() singInDto: SingInDto): Promise<JwtDto> {
