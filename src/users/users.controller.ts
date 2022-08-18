@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Headers, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Headers, Put, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiHeader,
@@ -6,10 +6,12 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './user.model';
 import UsersService from './users.service';
 
+@UseGuards(JwtAuthGuard)
 @ApiTags('Информация о пользователях')
 @ApiBearerAuth()
 @Controller('users')
