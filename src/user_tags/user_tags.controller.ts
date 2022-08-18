@@ -74,5 +74,4 @@ export class UserTagsController {
   async getTags(@Headers() headers: { authorization: string }) {
     return this.userTagsSevice.getTags(headers);
   }
-
 }
