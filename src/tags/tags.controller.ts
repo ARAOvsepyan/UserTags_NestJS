@@ -11,6 +11,7 @@ import {
   ParseIntPipe,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -19,6 +20,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { SearchTagDto } from './dto/search-tag.dto';
 import { UpdateTagDto } from './dto/update-tag.dto';
@@ -39,6 +41,7 @@ export class TagsController {
   @ApiOperation({ summary: 'Create Tag' })
   @ApiResponse({ status: 201, type: Tag, description: 'Example Tag' })
   @HttpCode(HttpStatus.CREATED)
+  @UseGuards(JwtAuthGuard)
   @Post()
   async createTag(
     @Headers() headers: { authorization: string },
@@ -74,6 +77,7 @@ export class TagsController {
   })
   @ApiOperation({ summary: 'Delete Tag by id' })
   @ApiResponse({ status: 200, description: 'Deleted Tag' })
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async deleteTagById(
     @Param('id', ParseIntPipe) id: number,
@@ -90,6 +94,7 @@ export class TagsController {
   })
   @ApiOperation({ summary: 'Update Tag by id' })
   @ApiResponse({ status: 200, description: 'Updated Tag' })
+  @UseGuards(JwtAuthGuard)
   @Put(':id')
   async updateTagById(
     @Param('id', ParseIntPipe) id: number,
