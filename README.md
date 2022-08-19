@@ -81,3 +81,4 @@ $ npm run test:cov
 ```
 
 It will launch the server on [http://localhost:8000](http://localhost:8000) this url.
+Swagger documentation is located at [localhost:8000/api/docs](localhost:8000/api/docs).
