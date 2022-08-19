@@ -42,9 +42,9 @@
   - exceptions
     - validation.exception
 - test
- - e2e
- - unit
- - integration
+  - e2e
+  - unit
+  - integration
 - app.module
 - main
 
