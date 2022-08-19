@@ -1,4 +1,4 @@
-# Test task for NodeJs developer
+# Test task for NodeJS developer
 
 <div align="center">
   
