@@ -8,6 +8,7 @@ import { User } from './users/user.model';
 import { AuthModule } from './auth/auth.module';
 import { Tag } from './tags/tags.model';
 import { UserTags } from './user_tags/user_tags.model';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   controllers: [],
@@ -15,6 +16,7 @@ import { UserTags } from './user_tags/user_tags.model';
   imports: [
     ConfigModule.forRoot({
       envFilePath: `.${process.env.NODE_ENV}.env`,
+      isGlobal: true,
     }),
     SequelizeModule.forRoot({
       dialect: 'postgres',
@@ -30,6 +32,7 @@ import { UserTags } from './user_tags/user_tags.model';
     UserTagsModule,
     TagsModule,
     AuthModule,
+    MailModule,
   ],
 })
 export class AppModule {}

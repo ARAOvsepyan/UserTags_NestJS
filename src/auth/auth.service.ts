@@ -7,48 +7,44 @@ import { LogInDto } from './dto/logIn.dto';
 import { SingInDto } from './dto/singIn.dto';
 import { JwtService } from '@nestjs/jwt';
 import { JwtDto } from './dto/jwt.dto';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(User) private readonly userRepository: typeof User,
     private jwtService: JwtService,
+    private mailService: MailService,
   ) {}
 
-  async singInUser(dto: SingInDto): Promise<JwtDto> {
-    try {
-      const condidate = await this.userRepository.findAll({
-        where: Sequelize.or({ email: dto.email }, { nickname: dto.nickname }),
-      });
-      if (condidate === []) {
-        throw new HttpException(
-          {
-            status: HttpStatus.BAD_REQUEST,
-            error: 'Некорректный email или nickname',
-          },
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-
-      const hash_password = await bcrypt.hash(dto.password, 5);
-      const user = await this.userRepository.create({
-        email: dto.email,
-        password: hash_password,
-        nickname: dto.nickname,
-      });
-
-      const payload = { uid: user.uid, email: user.email };
-
-      return { token: this.jwtService.sign(payload) };
-    } catch (e) {
+  async singInUser(dto: SingInDto) {
+    const condidate = await this.userRepository.findAll({
+      where: Sequelize.or({ email: dto.email }, { nickname: dto.nickname }),
+    });
+    if (condidate === []) {
       throw new HttpException(
         {
-          status: HttpStatus.INTERNAL_SERVER_ERROR,
-          error: e.error,
+          status: HttpStatus.BAD_REQUEST,
+          error: 'Некорректный email или nickname',
         },
-        HttpStatus.INTERNAL_SERVER_ERROR,
+        HttpStatus.BAD_REQUEST,
       );
     }
+
+    const hash_password = await bcrypt.hash(dto.password, 5);
+    const user = await this.userRepository.create({
+      email: dto.email,
+      password: hash_password,
+      nickname: dto.nickname,
+    });
+
+    const payload = { uid: user.uid, email: user.email };
+
+    const token = this.jwtService.sign(payload);
+
+    await this.mailService.sendUserConfirmation(user, token);
+
+    return { token: token };
   }
 
   async logInUsers(dto: LogInDto): Promise<JwtDto> {

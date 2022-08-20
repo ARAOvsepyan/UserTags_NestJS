@@ -24,7 +24,7 @@ export class AuthController {
   @UsePipes(ValidationPipe)
   @HttpCode(HttpStatus.CREATED)
   @Post('/singin')
-  singin(@Body() singInDto: SingInDto): Promise<JwtDto> {
+  singin(@Body() singInDto: SingInDto) {
     return this.authService.singInUser(singInDto);
   }
 
