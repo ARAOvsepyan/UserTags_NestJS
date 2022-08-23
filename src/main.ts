@@ -12,7 +12,10 @@ async function bootstrap() {
     .setDescription('Документация REST API')
     .setVersion('1.0.0')
     .addTag('ARAOvsepyan <ara07.99@icloud.com>')
-    .addBearerAuth()
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'token' },
+      'access-token',
+    )
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('/api/docs', app, document);

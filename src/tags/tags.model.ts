@@ -8,8 +8,8 @@ import {
   ForeignKey,
   BelongsToMany,
 } from 'sequelize-typescript';
-import { User } from 'src/users/user.model';
-import { UserTags } from 'src/user_tags/user_tags.model';
+import { User } from '../users/users.model';
+import { UserTags } from '../user_tags/user_tags.model';
 
 interface TagCretionAttributs {
   name: string;

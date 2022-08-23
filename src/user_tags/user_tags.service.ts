@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
-import { Tag } from 'src/tags/tags.model';
+import { Tag } from '../tags/tags.model';
 import { AddTagDto } from './dto/add-tags.dto';
 import { UserTags } from './user_tags.model';
 

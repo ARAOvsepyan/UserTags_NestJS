@@ -14,10 +14,10 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './user.model';
-import UsersService from './users.service';
+import { User } from './users.model';
+import { UsersService } from './users.service';
 
 @UseGuards(JwtAuthGuard)
 @ApiTags('Информация о пользователях')

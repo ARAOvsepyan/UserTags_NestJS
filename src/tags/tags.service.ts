@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/users/user.model';
+import { User } from '../users/users.model';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { SearchTagDto } from './dto/search-tag.dto';
 import { Tag } from './tags.model';

@@ -3,10 +3,10 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/sequelize';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './user.model';
+import { User } from './users.model';
 
 @Injectable()
-export default class UsersService {
+export class UsersService {
   constructor(
     @InjectModel(User) private readonly userRepository: typeof User,
     private jwtService: JwtService,

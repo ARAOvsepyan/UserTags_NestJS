@@ -6,8 +6,8 @@ import {
   DataType,
   ForeignKey,
 } from 'sequelize-typescript';
-import { Tag } from 'src/tags/tags.model';
-import { User } from 'src/users/user.model';
+import { Tag } from '../tags/tags.model';
+import { User } from '../users/users.model';
 
 interface UserTagsCretionAttributs {
   userUId: string;

@@ -1,14 +1,13 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
+
 import { UsersModule } from './users/users.module';
 import { UserTagsModule } from './user_tags/user_tags.module';
 import { TagsModule } from './tags/tags.module';
-import { User } from './users/user.model';
 import { AuthModule } from './auth/auth.module';
-import { Tag } from './tags/tags.model';
-import { UserTags } from './user_tags/user_tags.model';
-import { MailModule } from './mail/mail.module';
+import { DatabaseConnectionService } from './database-connection.service';
+// import { MailModule } from './mail/mail.module';
 
 @Module({
   controllers: [],
@@ -18,21 +17,14 @@ import { MailModule } from './mail/mail.module';
       envFilePath: `.${process.env.NODE_ENV}.env`,
       isGlobal: true,
     }),
-    SequelizeModule.forRoot({
-      dialect: 'postgres',
-      host: process.env.POSTGERS_HOST,
-      port: Number(process.env.POSTGRES_PORT),
-      username: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASSWORD,
-      database: process.env.POSTGRES_DB,
-      models: [User, Tag, UserTags],
-      autoLoadModels: true,
+    SequelizeModule.forRootAsync({
+      useClass: DatabaseConnectionService,
     }),
     UsersModule,
     UserTagsModule,
     TagsModule,
     AuthModule,
-    MailModule,
+    // MailModule,
   ],
 })
 export class AppModule {}

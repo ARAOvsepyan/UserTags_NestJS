@@ -7,8 +7,8 @@ import {
   HasMany,
   BelongsToMany,
 } from 'sequelize-typescript';
-import { Tag } from 'src/tags/tags.model';
-import { UserTags } from 'src/user_tags/user_tags.model';
+import { Tag } from '../tags/tags.model';
+import { UserTags } from '../user_tags/user_tags.model';
 
 interface UserCretionAttributs {
   email: string;
