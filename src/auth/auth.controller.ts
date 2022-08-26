@@ -8,8 +8,11 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { ApiHeader, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { ValidationPipe } from 'src/pipes/validation.pipe';
+
+import { ValidationPipe } from '../pipes/validation.pipe';
+
 import { AuthService } from './auth.service';
+
 import { JwtDto } from './dto/jwt.dto';
 import { LogInDto } from './dto/logIn.dto';
 import { SingInDto } from './dto/singIn.dto';

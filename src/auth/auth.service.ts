@@ -2,11 +2,14 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { InjectModel } from '@nestjs/sequelize';
 import { Sequelize } from 'sequelize-typescript';
-import { User } from 'src/users/user.model';
+import { JwtService } from '@nestjs/jwt';
+
+import { User } from '../users/users.model';
+
 import { LogInDto } from './dto/logIn.dto';
 import { SingInDto } from './dto/singIn.dto';
-import { JwtService } from '@nestjs/jwt';
 import { JwtDto } from './dto/jwt.dto';
+
 import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
@@ -32,17 +35,17 @@ export class AuthService {
     }
 
     const hash_password = await bcrypt.hash(dto.password, 5);
-    const user = await this.userRepository.create({
-      email: dto.email,
-      password: hash_password,
-      nickname: dto.nickname,
-    });
+    // const user = await this.userRepository.create({
+    //   email: dto.email,
+    //   password: hash_password,
+    //   nickname: dto.nickname,
+    // });
 
-    const payload = { uid: user.uid, email: user.email };
+    const payload = { uid: '1231j31l2;312;1', email: dto.email };
 
     const token = this.jwtService.sign(payload);
 
-    await this.mailService.sendUserConfirmation(user, token);
+    await this.mailService.sendUserConfirmation(dto.email, dto.nickname);
 
     return { token: token };
   }

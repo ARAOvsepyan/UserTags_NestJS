@@ -6,19 +6,19 @@ import { User } from 'src/users/users.model';
 export class MailService {
   constructor(private mailerService: MailerService) {}
 
-  async sendUserConfirmation(user: User) {
+  async sendUserConfirmation(email: string, nickname: string) {
     try {
       this.mailerService.sendMail({
-        to: user.email,
+        to: email,
         from: '"Support Team" <support@example.com>', // override default from
         subject: 'Welcome to Nice App! Confirm your Email',
         template: './transactional', // either change to ./transactional or rename transactional.html to confirmation.html
         context: {
-          name: user.nickname,
+          name: nickname,
         },
       });
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   }
 }

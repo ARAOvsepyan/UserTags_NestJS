@@ -7,7 +7,7 @@ import { UserTagsModule } from './user_tags/user_tags.module';
 import { TagsModule } from './tags/tags.module';
 import { AuthModule } from './auth/auth.module';
 import { DatabaseConnectionService } from './database-connection.service';
-// import { MailModule } from './mail/mail.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   controllers: [],
@@ -24,7 +24,7 @@ import { DatabaseConnectionService } from './database-connection.service';
     UserTagsModule,
     TagsModule,
     AuthModule,
-    // MailModule,
+    MailModule,
   ],
 })
 export class AppModule {}

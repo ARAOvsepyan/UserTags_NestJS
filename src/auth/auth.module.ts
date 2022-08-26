@@ -1,12 +1,16 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { SequelizeModule } from '@nestjs/sequelize';
-import { MailModule } from 'src/mail/mail.module';
-import { User } from 'src/users/user.model';
-import { UsersModule } from 'src/users/users.module';
+
+import { MailModule } from '../mail/mail.module';
+import { UsersModule } from '../users/users.module';
+
+import { User } from '../users/users.model';
+
+import { jwtConstants } from './constants';
+
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { jwtConstants } from './constants';
 
 @Module({
   controllers: [AuthController],
